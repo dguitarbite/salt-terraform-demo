@@ -1,0 +1,6 @@
+simplerpc:
+  lookup:
+    pkg: mysimplerpc
+    conf_file: /usr/local/etc/simplerpc/simplerpc.conf
+  config:
+    key: othervalue
