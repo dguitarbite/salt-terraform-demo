@@ -88,6 +88,9 @@ TODO
 - [x] Initialize Repository.
 - [x] Setup and configure Terraform.
 - [x] Setup additional CLI.
+- [x] Implement simple math operator module.
+- [x] Write basic test cases for the same.
+- [x] Setup testing framework.
 - [ ] Implement required Saltstack modules.
 - [ ] Implement RPC module(s).
 - [ ] Implement test cases for RPC module.
