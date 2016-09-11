@@ -4,11 +4,6 @@ simplerpc
 
 Simple RPC program using AMQP and managed by SaltStack.
 
-.. note::
-
-    See the full `Salt Formulas installation and usage instructions
-    <http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html>`_.
-
 Problem Statement
 =================
 
@@ -20,13 +15,17 @@ We value not only quality of the code but also originality, usefulness, etc.
 Point us to the source code.
 
 - Setup a salt cluster with:
+
   - One master
   - Two minions
+
 - Run basic mathematical operations:
+
   - Addition
   - Multiplication
   - Division
   - Substraction
+
 - The module should run the operations via. RPC.
 - Using AMQP for making asynchronous RPC calls over the salt cluster.
 - Should have sufficient test coverage.
@@ -39,27 +38,33 @@ Getting Started
   - Using [Terraform libvirt plugin.](https://github.com/dmacvicar/terraform-provider-libvirt) for setting up VM's.
 - Using a simple [RabbitMQ](https://www.rabbitmq.com/) based [RPC](https://en.wikipedia.org/wiki/Remote_procedure_call) program using [AMQP](https://www.amqp.org/).
 - Saltstack will have the following roles in the application:
-  - Pull required information about the cluster.
-  - Manage the configuration, installation and related tasks for the cluster.
-  - Make sure that the program is running as expected and the services are behaving.
-  - Monitor and logging.
+
+  * Pull required information about the cluster.
+  * Manage the configuration, installation and related tasks for the cluster.
+  * Make sure that the program is running as expected and the services are behaving.
+  * Monitor and logging.
+
 - To use this repository, just run the ./setup.sh after installing required dependencies:
-  - It should automatically setup a three node cluster.
-  - Start saltstack on the master.
-  - Salt then takes over from here, prepares the cluster.
-  - When the cluster is ready, now you may move on to use the RPC program.
+
+  * It should automatically setup a three node cluster.
+  * Start saltstack on the master.
+  * Salt then takes over from here, prepares the cluster.
+  * When the cluster is ready, now you may move on to use the RPC program.
+
 - Using the simple_rpc program:
-  - Make sure that your cluster is launched!
-  - Run the program ...
+
+  * Make sure that your cluster is launched!
+  * Run the program ...
+
 .. XXX dbite: Finish me ... from getting started!
 
 Weird Little Quirks
 ===================
 
 - Some limitations or drawbacks from the side of Terraform with libvirt plugin have given the need for the following:
-  - Only use ``setup.sh`` for setting up or destroying the cluster.
-  - Naming conventions are starting with ``dsalt<rolename><-><number>`` for easily grepping and manual start or delete of the cluster VM's.
-  - More ..?
+  * Only use ``setup.sh`` for setting up or destroying the cluster.
+  * Naming conventions are starting with ``dsalt<rolename><-><number>`` for easily grepping and manual start or delete of the cluster VM's.
+- More ..?
 
 Available states
 ================
@@ -80,19 +85,24 @@ None
 TODO
 ====
 
-- [ ] Initialize Repository.
-- [ ] Setup and configure Terraform.
-- [ ] Setup additional CLI.
+- [x] Initialize Repository.
+- [x] Setup and configure Terraform.
+- [x] Setup additional CLI.
 - [ ] Implement required Saltstack modules.
 - [ ] Implement RPC module(s).
 - [ ] Implement test cases for RPC module.
-  - [ ] Unit tests.
-  - [ ] Functional tests.
+
+  * [ ] Unit tests.
+  * [ ] Functional tests.
+
 - [ ] Implement test cases for Saltstack modules.
-  - [ ] Unit tests.
-  - [ ] Functional tests.
+
+  * [ ] Unit tests.
+  * [ ] Functional tests.
+
 - [ ] Implement simple functional/integration tests.
-  - [ ] Test Saltstack modules.
-  - [ ] Test RPC modules.
-  - [ ] Test RPC modules on a running cluster.
-  - [ ] May be more?
+
+  * [ ] Test Saltstack modules.
+  * [ ] Test RPC modules.
+  * [ ] Test RPC modules on a running cluster.
+  * [ ] May be more?
