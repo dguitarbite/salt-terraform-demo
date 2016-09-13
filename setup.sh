@@ -78,10 +78,10 @@ function start_inactive_vms {
 }
 
 function usage {
-    echo "Usage: $0 [h|help|setup|teardown]"
+    echo "Usage: $0 [h|help|provision|teardown]"
     echo
     echo "h|help        Help."
-    echo "setup         Setup the salt cluster using terraform."
+    echo "provision     Provision the salt cluster using terraform."
     echo "teardown      Destroy the cluster, additionally attempt cleanups."
     echo
     echo "Please retry with the above mentioned options. Have fun hacking!"
@@ -93,7 +93,7 @@ function cli {
         h|help)
             usage
             ;;
-        setup)
+        provision)
             start_cluster
             start_inactive_vms
             exit
