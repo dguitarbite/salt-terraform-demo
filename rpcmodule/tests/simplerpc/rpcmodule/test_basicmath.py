@@ -1,5 +1,5 @@
 import random
-import simplerpc.rpcmodule.basicmath as basicmath
+import rpcmodule.basicmath as basicmath
 
 
 mathOp = basicmath.BasicMath()

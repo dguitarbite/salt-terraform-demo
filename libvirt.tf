@@ -82,7 +82,8 @@ hYf7AGKNE/1Vzai+7iaZkDppVVWJczKi/AjQkRQXUyLmDovd+KaO
 -----END RSA PRIVATE KEY-----"
         }       inline = [
             "echo 'Hello' > /root/hello",
-            "echo 'Hi'"
+            "echo 'Hi'",
+            "echo 'saltmaster.tfsaltdemo' > /etc/hostname"
         ]
     }
 }
@@ -91,11 +92,11 @@ resource "libvirt_domain" "saltminion" {
 
     name = "dsaltminion-${count.index+1}"
     disk {
-        volume_id = "${element(libvirt_volume.minionvolume.*.id, count.index)}"
+        volume_id = "${element(libvirt_volume.minionvolume.*.id, count.index+1)}"
     }
     network_interface {
         network_id = "${libvirt_network.tfsaltdemo.id}"
-        hostname = "saltminion${count.index}"
+        hostname = "saltminion${count.index+1}"
         wait_for_lease = 1
     }
     cloudinit = "${libvirt_cloudinit.commoninit.id}"
@@ -134,7 +135,8 @@ hYf7AGKNE/1Vzai+7iaZkDppVVWJczKi/AjQkRQXUyLmDovd+KaO
         }
         inline = [
             "echo 'Hello' > /root/hello",
-            "echo 'Hi'"
+            "echo 'Hi'",
+            "echo saltminion${count.index+1} > /etc/hostname"
         ]
     }
 }

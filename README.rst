@@ -92,7 +92,7 @@ TODO
 - [x] Write basic test cases for the same.
 - [x] Setup testing framework.
 - [ ] Implement required Saltstack modules.
-- [x] Implement RPC module(s).
+- [ ] Implement RPC module(s).
 - [ ] Implement test cases for RPC module.
 
   * [ ] Unit tests.
@@ -108,4 +108,3 @@ TODO
   * [ ] Test Saltstack modules.
   * [ ] Test RPC modules.
   * [ ] Test RPC modules on a running cluster.
-  * [ ] May be more?
