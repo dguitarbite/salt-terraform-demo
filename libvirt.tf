@@ -141,12 +141,12 @@ hYf7AGKNE/1Vzai+7iaZkDppVVWJczKi/AjQkRQXUyLmDovd+KaO
     }
 }
 
-output "masterip" {
+output "saltmasterip" {
 
-    value = "${libvirt_domain.saltmaster.host}"
+    value = "${libvirt_domain.saltmaster.network_interface.0.addresses.0}"
 }
 
-output "minionsip" {
+output "saltminionip" {
 
-    value = ["${libvirt_domain.saltminion.*.host}"]
+    value = ["${libvirt_domain.saltminion.*.network_interface.0.addresses.0}"]
 }

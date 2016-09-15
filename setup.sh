@@ -14,20 +14,29 @@ trap 'kill -- -$$' SIGINT           # Kill entire process group.
 
 
 VIRSHCMD="virsh -c qemu:///system"
+FORCE=0
 
 function start_cluster {
 
     terraform plan
     terraform apply
+
+    if [ "$FORCE" == "1" ]; then
+        start_inactive_vms
+    fi
 }
 
 function destroy_cluster {
 
     terraform refresh
     terraform destroy
+
     echo "Warning: Destroy may not function as expected."
-    echo "Note: You may have to do some manual cleanups using vish."
-    destroy_remaining_vms
+    echo "Note: You may have to do some manual cleanups using virsh."
+
+    if [ "$FORCE" == "1" ]; then
+        destroy_remaining_vms
+    fi
 }
 
 function destroy_remaining_vms {
@@ -78,7 +87,10 @@ function start_inactive_vms {
 }
 
 function usage {
-    echo "Usage: $0 [h|help|provision|teardown]"
+    echo "Usage: $0 [-f] [h|help|provision|teardown]"
+    echo
+    echo "-f            Force, manually trigger libvirt after terraform"
+    echo "              has run. WARNING! This will break terraform."
     echo
     echo "h|help        Help."
     echo "provision     Provision the salt cluster using terraform."
@@ -95,7 +107,6 @@ function cli {
             ;;
         provision)
             start_cluster
-            start_inactive_vms
             exit
             ;;
         teardown)
@@ -111,9 +122,13 @@ function cli {
 }
 
 OPTIONS=$@
-shift $(( OPTIND -1 ))
 if [ $# -eq 0 ]; then
     usage
 else
+    if [ "$1" == "-f" ]; then
+        shift
+        FORCE=1
+    fi
+    OPTIONS=$1
     cli $OPTIONS
 fi
