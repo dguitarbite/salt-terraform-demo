@@ -8,4 +8,4 @@ Clone simplerpc repo:
   git.latest:
     - name: https://github.com/dguitarbite/salt-terraform-demo.git
     - rev: master
-    - target: /srv/simplerpc/
+    - target: /usr/local/simplerpc/
