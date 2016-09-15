@@ -81,9 +81,9 @@ GKeG8GcpvC0Ujaf5yRAhxobz4LIU6qWzVyZQwKZ5V8edAnzZGXhDzODivNvANPFg
 hYf7AGKNE/1Vzai+7iaZkDppVVWJczKi/AjQkRQXUyLmDovd+KaO
 -----END RSA PRIVATE KEY-----"
         }       inline = [
-            "echo 'Hello' > /root/hello",
-            "echo 'Hi'",
-            "echo 'saltmaster.tfsaltdemo' > /etc/hostname"
+            "wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/utils/scripts/setup_saltmaster.sh",
+            "echo 'saltmaster.tfsaltdemo' > /etc/hostname",
+            "bash setup_saltmaster.sh"
         ]
     }
 }
@@ -134,9 +134,9 @@ hYf7AGKNE/1Vzai+7iaZkDppVVWJczKi/AjQkRQXUyLmDovd+KaO
 -----END RSA PRIVATE KEY-----"
         }
         inline = [
-            "echo 'Hello' > /root/hello",
-            "echo 'Hi'",
-            "echo saltminion${count.index+1} > /etc/hostname"
+            "wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/utils/scripts/setup_saltminion.sh",
+            "echo saltminion${count.index+1} > /etc/hostname",
+            "bash setup_saltminion.sh"
         ]
     }
 }
