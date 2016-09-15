@@ -51,6 +51,12 @@ Getting Started
   * Salt then takes over from here, prepares the cluster.
   * When the cluster is ready, now you may move on to use the RPC program.
 
+- After terraform is finished with deploying the cluster, terraform should provide the required ip addresses.
+
+  * Run command `$ terraform output` to get the ip addresses of the given nodes.
+  * You need the private key file, find it here: `utils/keys/masterKey`
+  * SSH command: `$ ssh -i utils/keys/masterKey root@<$node_ip>`
+
 - Using the simple_rpc program:
 
   * Make sure that your cluster is launched!

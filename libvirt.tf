@@ -150,3 +150,7 @@ output "saltminionip" {
 
     value = ["${libvirt_domain.saltminion.*.network_interface.0.addresses.0}"]
 }
+
+output "info" {
+    value = "Find the private key here: `utils/keys/masterKey`."
+}
