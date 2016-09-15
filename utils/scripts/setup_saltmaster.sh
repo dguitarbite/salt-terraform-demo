@@ -26,9 +26,9 @@ git clone https://github.com/dguitarbite/rabbitmq-formula.git /srv/formulas/rabb
 
 # Fetch the salt modules from my repo.
 # XXX(dbite): Find more elegant method.
-wget https://github.com/dguitarbite/salt-terraform-demo/archive/master.zip -O /tmp/saltmodules.zip
-unzip /tmp/saltmodules.zip 'salt-terraform-demo/salt/*' -d /tmp/
-mv /tmp/salt-terraform-demo-master/salt/* /srv/.
+wget https://github.com/dguitarbite/salt-terraform-demo/archive/master.zip
+unzip saltmodules.zip
+mv salt-terraform-demo-master/salt/* /srv/.
 chown -R root:salt /srv/salt /srv/pillar
 
 systemctl enable salt-master.service
