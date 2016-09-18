@@ -1,9 +1,6 @@
-# This module is the server side for running RPC over AMQP.
-# Using pika to invoke RabbitMQ for the same.
+import basicmath
 import pika
-import random
 import sys
-import uuid
 
 
 args = sys.argv
@@ -17,43 +14,46 @@ else:
     HOSTURI = 'localhost'
     EXCHANGE = ''
 
-
-class BasicMathOperators(object):
-
-    def __init__(self):
-
-        connURI = pika.ConnectionParameters(HOSTURI)
-        self.connection = pika.BlockingConnection(connURI)
-        self.channel = self.connection.channel()
-        result = self.channel.queue_declare(exclusive=True)
-        self.callback_queue = result.method.queue
-        self.channel.basic_consume(self.on_response, no_ack=True,
-                                   queue=self.callback_queue)
-
-    def on_response(self, ch, method, props, body):
-        if self.corr_id == props.correlation_id:
-            self.response = body
-
-    def call(self, n):
-        self.response = None
-        self.corr_id = str(uuid.uuid4())
-        basicProperties = pika.BasicProperties(
-            reply_to=self.callback_queue,
-            correlation_id=self.corr_id,
-        )
-
-        self.channel.basic_publish(exchange='',
-                                   routing_key='rpc_queue',
-                                   properties=basicProperties,
-                                   body=str(n))
-
-        while self.response is None:
-            self.connection.process_data_events()
-        return int(self.response)
+QUEUE = 'simplerpc'
+credentials = pika.PlainCredentials('simplerpc', 'simplerpc')
+parameters = pika.ConnectionParameters(host=HOSTURI, credentials=credentials)
+connection = pika.BlockingConnection(parameters)
+channel = connection.channel()
+channel.queue_declare(queue=QUEUE)
 
 
-mathOps = BasicMathOperators()
+def mathOps(n):
 
-print(" [x] Requesting addition")
-response = mathOps.call(random.randrange(30))
-print(" [.] Got %s" % response)
+    mathstuff = basicmath.BasicMath()
+    n = mathstuff.addition(n)
+    n = mathstuff.division(n)
+    n = mathstuff.modulus(n)
+    n = mathstuff.multiplication(n)
+    n = mathstuff.substraction(n)
+
+    return n
+
+
+def on_request(ch, method, props, body):
+
+    n = int(body)
+
+    print(" [.] mathOps(%s)" % n)
+    response = mathOps(n)
+
+    basicProperties = pika.BasicProperties(correlation_id=props.correlation_id)
+    ch.basic_publish(exchange='',
+                     routing_key=props.reply_to,
+                     properties=basicProperties,
+                     body=str(response))
+    ch.basic_ack(delivery_tag=method.delivery_tag)
+
+
+channel.basic_qos(prefetch_count=1)
+channel.basic_consume(on_request, queue=QUEUE)
+
+try:
+    print(" [x] Awaiting RPC requests")
+    channel.start_consuming()
+except KeyboardInterrupt:
+    connection.close()
