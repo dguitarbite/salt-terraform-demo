@@ -2,5 +2,5 @@ base:
   '*':
     - common
     - simplerpc
-  'saltminion1':
+  'saltminion1*':
     - amqp
