@@ -1,14 +1,14 @@
 Install Server Script:
   cmd.run:
-    - name: wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/rpcmodule/server.py -O /usr/local/lib/simplerpc-server
+    - name: wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/simplerpc/server.py -O /usr/local/lib/simplerpc-server
 
 Install Client Script:
   cmd.run:
-    - name: wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/rpcmodule/client.py -O /usr/local/lib/simplerpc-client
+    - name: wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/simplerpc/client.py -O /usr/local/lib/simplerpc-client
 
 Install BasicMath Script:
   cmd.run:
-    - name: wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/rpcmodule/basicmath.py -O /usr/local/lib/basicmath.py
+    - name: wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/simplerpc/basicmath.py -O /usr/local/lib/basicmath.py
 
 Init.py not ideal:
   cmd.run:

@@ -1,5 +1,5 @@
 import random
-import rpcmodule.basicmath as basicmath
+import simplerpc.basicmath as basicmath
 
 
 mathOp = basicmath.BasicMath()
@@ -87,7 +87,7 @@ def test_division_random_numbers():
 def test_modulus():
 
     numbers = [1, 2, 3, 4, 5]
-    assert (mathOp.modulus(numbers), _cumulative_modulus(numbers))
+    assert mathOp.modulus(numbers), _cumulative_modulus(numbers)
 
 
 def test_modulus_random_numbers():
