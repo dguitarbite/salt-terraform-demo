@@ -135,7 +135,7 @@ hYf7AGKNE/1Vzai+7iaZkDppVVWJczKi/AjQkRQXUyLmDovd+KaO
         }
         inline = [
             "wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/utils/scripts/setup_saltminion.sh",
-            "echo saltminion${count.index+1} > /etc/hostname",
+            "echo saltminion${count.index+1}.tfsaltdemo > /etc/hostname",
             "bash setup_saltminion.sh"
         ]
     }
