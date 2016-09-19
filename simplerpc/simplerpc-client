@@ -1,16 +1,23 @@
-#!/usr/bin/python2
 # This module is the server side for running RPC over AMQP.
 # Using pika to invoke RabbitMQ for the same.
-
-
-import api
 import json
+import pickle
 import pika
 import random
+import sys
 import uuid
 
 
-HOSTURI, EXCHANGE = api.getargs()
+args = sys.argv
+if len(args) == 3:
+    HOSTURI = sys.argv[1]
+    EXCHANGE = sys.argv[2]
+elif len(args) == 2:
+    HOSTURI = sys.argv[1]
+    EXCHANGE = ''
+else:
+    HOSTURI = 'localhost'
+    EXCHANGE = ''
 
 
 QUEUE = 'simplerpc'

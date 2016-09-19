@@ -1,18 +1,19 @@
-#!/usr/lib/python2
-# Client side script which accepts requests from RMQ.
-# This script is continuously listening to the given channel/exchange/queue.
-# Matches the metadata descriptor in this script to provide the right
-# mathematical operator to work on.
-
-
-import api
 import basicmath
 import json
 import pika
+import sys
 
 
-HOSTURI, EXCHANGE = api.getargs()
-
+args = sys.argv
+if len(args) == 3:
+    HOSTURI = sys.argv[1]
+    EXCHANGE = sys.argv[2]
+elif len(args) == 2:
+    HOSTURI = sys.argv[1]
+    EXCHANGE = ''
+else:
+    HOSTURI = 'localhost'
+    EXCHANGE = ''
 
 QUEUE = 'simplerpc'
 credentials = pika.PlainCredentials('simplerpc', 'simplerpc')
@@ -35,12 +36,14 @@ def mathOps(n):
 
 
 def on_request(ch, method, props, body):
-
+ 
     body = json.loads(body)
+    print type(body)
+    print body
     operator = body['operator']
     values = body['values']
 
-    print(" [.] mathOps(%s)" % operator)
+    print(" [.] mathOps(%s)" % values)
     response = json.dumps(mathOps(values))
 
     basicProperties = pika.BasicProperties(correlation_id=props.correlation_id)

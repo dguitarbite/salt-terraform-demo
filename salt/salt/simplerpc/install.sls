@@ -13,6 +13,10 @@ Install BasicMath Script:
     - name: wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/simplerpc/basicmath.py -O /usr/local/lib/basicmath.py
     - unless: ls /usr/local/lib/ | grep basicmath
 
+Install Utils Script:
+  cmd.run:
+    - name: wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/simplerpc/utils.py -O /usr/local/lib/utils.py
+
 Init.py not ideal:
   cmd.run:
     - name: touch /usr/local/lib/__init__.py
@@ -20,4 +24,4 @@ Init.py not ideal:
 
 Exec them perms:
   cmd.run:
-    - name: chmod -R 0111 /usr/local/lib/*.py
+    - name: chmod -R 0111 /usr/local/lib
