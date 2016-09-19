@@ -100,17 +100,12 @@ TODO
 - [x] Implement required Saltstack modules.
 - [ ] Implement RPC module(s).
 - [ ] Implement test cases for RPC module.
-
   * [ ] Unit tests.
   * [ ] Functional tests.
-
 - [ ] Implement test cases for Saltstack modules.
-
   * [ ] Unit tests.
   * [ ] Functional tests.
-
 - [ ] Implement simple functional/integration tests.
-
   * [ ] Test Saltstack modules.
   * [ ] Test RPC modules.
   * [ ] Test RPC modules on a running cluster.
