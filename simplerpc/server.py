@@ -9,11 +9,12 @@ import api
 import basicmath
 import json
 import pika
+from StringIO import StringIO
 
 
 HOSTURI, EXCHANGE = api.getargs()
 
-
+REQ_COUNT = 0
 QUEUE = 'simplerpc'
 credentials = pika.PlainCredentials('simplerpc', 'simplerpc')
 parameters = pika.ConnectionParameters(host=HOSTURI, credentials=credentials)
@@ -27,15 +28,24 @@ def mathOps(values, operator='all'):
     output = {}
     mathstuff = basicmath.BasicMath()
 
-    if ('addition' or 'all') in operator:
+    if operator in ('addition', 'all'):
+        print "Hit ME! Add"
         output['addition'] = mathstuff.addition(values)
-    elif ('multiplication' or 'all') in operator:
+
+    if operator in ('multiplication' or 'all'):
+        print "Hit ME! mul"
         output['multiplication'] = mathstuff.multiplication(values)
-    elif ('division' or 'all') in operator:
+
+    if operator in ('division' or 'all'):
+        print "Hit ME! div"
         output['division'] = mathstuff.division(values)
-    elif ('modulus' or 'all') in operator:
+
+    if operator in ('modulus' or 'all'):
+        print "Hit ME! mod"
         output['modulus'] = mathstuff.modulus(values)
-    elif ('substraction' or 'all') in operator:
+
+    if operator in ('substraction' or 'all'):
+        print "Hit ME! sub"
         output['substraction'] = mathstuff.substraction(values)
 
     return output
@@ -43,14 +53,18 @@ def mathOps(values, operator='all'):
 
 def on_request(ch, method, props, body):
 
-    body = json.loads(body)
+    global REQ_COUNT
+
+    REQ_COUNT += 1
+    print(" [x] Listening ... Request Number: %i" % REQ_COUNT)
+    body = json.load(StringIO(body))
     operator = body['operator']
     values = body['data']
 
     print(" [.] mathOps(%s)" % operator)
-    response = json.dumps(mathOps(values, operator=operator))
-    print(" Output: %s" % response)
-    print("\n\n")
+    response = json.dumps(mathOps(values, operator=operator), 
+                                  separators=(',', ':'))
+    print(" Output: %s\n" % response)
     basicProperties = pika.BasicProperties(correlation_id=props.correlation_id)
     ch.basic_publish(exchange='',
                      routing_key=props.reply_to,
@@ -63,7 +77,8 @@ channel.basic_qos(prefetch_count=1)
 channel.basic_consume(on_request, queue=QUEUE)
 
 try:
-    print(" [x] Awaiting RPC requests")
+    print(" [x] Avaiting RPC requests")
+    print(" [x] Starting RPC server\n")
     channel.start_consuming()
 except KeyboardInterrupt:
     connection.close()

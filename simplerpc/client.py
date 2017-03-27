@@ -7,6 +7,7 @@ import api
 import json
 import pika
 import random
+from StringIO import StringIO
 import time
 import uuid
 
@@ -21,6 +22,7 @@ class BasicMathOperators(object):
 
     def __init__(self):
 
+        print("Authenticating with rabbitmq server : %s" % HOSTURI)
         credentials = pika.PlainCredentials('simplerpc', 'simplerpc')
         connURI = pika.ConnectionParameters(host=HOSTURI,
                                             credentials=credentials)
@@ -30,6 +32,7 @@ class BasicMathOperators(object):
         self.callback_queue = result.method.queue
         self.channel.basic_consume(self.on_response, no_ack=True,
                                    queue=self.callback_queue)
+        print("Authentication seems to be successful!")
 
     def on_response(self, ch, method, props, body):
         if self.corr_id == props.correlation_id:
@@ -50,7 +53,7 @@ class BasicMathOperators(object):
 
         while self.response is None:
             self.connection.process_data_events()
-        return int(self.response)
+        return self.response
 
 
 mathOps = BasicMathOperators()
@@ -62,13 +65,20 @@ while True:
 
     try:
         numbers = random.sample(range(1000), 10)
-        mathoperators = ['addition', 'division', 'substraction', 'all', 'multiplication', 'modulus']
+        mathoperators = [
+                      'addition', 
+                      'division', 
+                      'substraction', 
+                      'all', 
+                      'multiplication', 
+                      'modulus']
         operator = random.choice(mathoperators)
         print(" [x] Requesting %s" % operator)
-        rpcData = json.dumps({'operator': operator, 
-                            'data': numbers})
+        rpcData = json.dumps({'operator': operator, 'data': numbers},
+                            separators=(',', ':'))
         response = (mathOps.call(rpcData))
-        response = json.loads(response)
-        print(" [.] Got the cumulative %s: %s " % operator, response)
-    except:
-        print(" Some random error, who cares!")
+        response = json.load(StringIO(response))
+        print(" [.] Got the cumulative %s: %s ") % (operator, response)
+
+    except Exception as ex:
+        print("Caught Exception %s" % ex)
