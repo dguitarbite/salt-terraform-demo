@@ -7,6 +7,7 @@ import api
 import json
 import pika
 import random
+import time
 import uuid
 
 
@@ -56,6 +57,8 @@ mathOps = BasicMathOperators()
 
 # TODO(dbite): Invoke multiple threads of this connection.
 while True:
+   
+    time.sleep(5)
 
     try:
         numbers = random.sample(range(1000), 10)

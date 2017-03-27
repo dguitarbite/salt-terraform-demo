@@ -50,7 +50,7 @@ def on_request(ch, method, props, body):
     print(" [.] mathOps(%s)" % operator)
     response = json.dumps(mathOps(values, operator=operator))
     print(" Output: %s" % response)
-    print("\n\n\n\n")
+    print("\n\n")
     basicProperties = pika.BasicProperties(correlation_id=props.correlation_id)
     ch.basic_publish(exchange='',
                      routing_key=props.reply_to,
