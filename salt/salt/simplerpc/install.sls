@@ -8,14 +8,15 @@ Install Client Script:
     - name: wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/simplerpc/client.py -O /usr/local/lib/simplerpc-client
     - unless: ls /usr/local/lib/ | grep simplerpc-client
 
+Install API Script:
+  cmd.run:
+    - name: wget https://github.com/dguitarbite/salt-terraform-demo/raw/master/simplerpc/api.py -O /usr/local/lib/api.py
+    - unless: ls /usr/local/lib/ | grep api
+
 Install BasicMath Script:
   cmd.run:
     - name: wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/simplerpc/basicmath.py -O /usr/local/lib/basicmath.py
     - unless: ls /usr/local/lib/ | grep basicmath
-
-Install Utils Script:
-  cmd.run:
-    - name: wget https://raw.githubusercontent.com/dguitarbite/salt-terraform-demo/master/simplerpc/utils.py -O /usr/local/lib/utils.py
 
 Init.py not ideal:
   cmd.run:
