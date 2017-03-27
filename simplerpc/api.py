@@ -5,7 +5,7 @@
 import sys
 
 
-def getargs(args):
+def getargs():
     """Get args and return them."""
 
     args = sys.argv

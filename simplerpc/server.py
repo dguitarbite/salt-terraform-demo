@@ -1,5 +1,5 @@
 #!/usr/lib/python2
-# Client side script which accepts requests from RMQ.
+# Server side script which accepts requests from RMQ.
 # This script is continuously listening to the given channel/exchange/queue.
 # Matches the metadata descriptor in this script to provide the right
 # mathematical operator to work on.
@@ -22,27 +22,35 @@ channel = connection.channel()
 channel.queue_declare(queue=QUEUE)
 
 
-def mathOps(n):
+def mathOps(values, operator='all'):
 
+    output = {}
     mathstuff = basicmath.BasicMath()
-    n = mathstuff.addition(n)
-    n = mathstuff.division(n)
-    n = mathstuff.modulus(n)
-    n = mathstuff.multiplication(n)
-    n = mathstuff.substraction(n)
 
-    return n
+    if ('addition' or 'all') in operator:
+        output['addition'] = mathstuff.addition(values)
+    elif ('multiplication' or 'all') in operator:
+        output['multiplication'] = mathstuff.multiplication(values)
+    elif ('division' or 'all') in operator:
+        output['division'] = mathstuff.division(values)
+    elif ('modulus' or 'all') in operator:
+        output['modulus'] = mathstuff.modulus(values)
+    elif ('substraction' or 'all') in operator:
+        output['substraction'] = mathstuff.substraction(values)
+
+    return output
 
 
 def on_request(ch, method, props, body):
 
     body = json.loads(body)
     operator = body['operator']
-    values = body['values']
+    values = body['data']
 
     print(" [.] mathOps(%s)" % operator)
-    response = json.dumps(mathOps(values))
-
+    response = json.dumps(mathOps(values, operator=operator))
+    print(" Output: %s" % response)
+    print("\n\n\n\n")
     basicProperties = pika.BasicProperties(correlation_id=props.correlation_id)
     ch.basic_publish(exchange='',
                      routing_key=props.reply_to,

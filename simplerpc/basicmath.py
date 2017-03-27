@@ -13,44 +13,44 @@ class BasicMath(object):
 
         }
 
-    def addition(self, *args):
+    def addition(self, values):
         """Cumulative addition of the given list of numbers. Returns a single
         number.
         """
 
-        result = reduce(self.mathOperations['add'], args)
+        result = reduce(self.mathOperations['add'], values)
 
         return result
 
-    def substraction(self, *args):
+    def substraction(self, values):
         """Cumulative substraction of the given list of numbers. Returns a
         single number.
         """
 
-        result = reduce(self.mathOperations['sub'], args)
+        result = reduce(self.mathOperations['sub'], values)
 
         return result
 
-    def division(self, *args):
+    def division(self, values):
         """Cumulative division of the given list of numbers. Returns a single
         number."""
 
-        result = reduce(self.mathOperations['div'], args)
+        result = reduce(self.mathOperations['div'], values)
 
         return result
 
-    def multiplication(self, *args):
+    def multiplication(self, values):
         """Cumulative multiplication of the given list of numbers. Returns a
         single number."""
 
-        result = reduce(self.mathOperations['mul'], args)
+        result = reduce(self.mathOperations['mul'], values)
 
         return result
 
-    def modulus(self, *args):
+    def modulus(self, values):
         """Cumulative modulus of the given list of numbers. Returns a single
         number."""
 
-        result = reduce(self.mathOperations['mod'], args)
+        result = reduce(self.mathOperations['mod'], values)
 
         return result

@@ -1,5 +1,5 @@
 #!/usr/bin/python2
-# This module is the server side for running RPC over AMQP.
+# This module is the client side for running RPC over AMQP.
 # Using pika to invoke RabbitMQ for the same.
 
 
@@ -54,10 +54,18 @@ class BasicMathOperators(object):
 
 mathOps = BasicMathOperators()
 
-print(" [x] Requesting addition")
 # TODO(dbite): Invoke multiple threads of this connection.
-numbers = random.randrange(30)
-mathoperator = 'addition'
-rpcData = json.dumps({'operator': mathoperator, 'data': numbers})
-response = json.loads(mathOps.call(rpcData))
-print(" [.] Got %s" % response)
+while True:
+
+    try:
+        numbers = random.sample(range(1000), 10)
+        mathoperators = ['addition', 'division', 'substraction', 'all', 'multiplication', 'modulus']
+        operator = random.choice(mathoperators)
+        print(" [x] Requesting %s" % operator)
+        rpcData = json.dumps({'operator': operator, 
+                            'data': numbers})
+        response = (mathOps.call(rpcData))
+        response = json.loads(response)
+        print(" [.] Got the cumulative %s: %s " % operator, response)
+    except:
+        print(" Some random error, who cares!")
